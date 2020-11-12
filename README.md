@@ -43,7 +43,18 @@ Once we got results about selective sweeps on genomes among populations in each 
     - BE method allowsd no missing genotypes and we have use BEAGLE4 to imputed the vcf files (you got from last step) before doing next step.
     - Use **getPhe4STCH_geno_DF_nofilterAFD05_add_GG6_3164Samples.R** to merge phenotype data with genotypes within the genomic regions detected in last two steps.
     - Use BE method stored in **Function_findTagSNPs_among3164Samples_noyj20_BW8_GG6.R** to find tag SNPs.
-    
+  
+  * **03 **Once you got he tag SNPs, extract them again from the STITCH-imputed AIL and BEAGLE4-imputed XWS41/50/53 datasets and phase them by BEAGLE4. Now, we got the haplotypes constituted of tag SNPs in tw files:
+    - xxx_tagSNPs_XWS_genoDF.txt (only LWS41/50/53 or HWS41/50/53 Samples genotyped at loci of tag SNPs)
+    - xxx_tagSNPs_AIL_genoDF.txt (3164 Samples genotyped at loci of tag SNPs)
+  
+## Associations studies on effects of the haplotypes under ongoing selection on 56-day effects
+We put this part as an indepentd section although it was closely related to the last section. This was because we think this part was extremely important for the whole project structure.
+
+
+## Explained variance by all 149 tag SNPs form LWS and HWS lineages
+
+
     
     
     
