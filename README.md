@@ -14,6 +14,22 @@ We imputed low-density chip genotypes for XWS41/50/53 to a higher whole-genome w
     - which means heterozygotes were changed to 1, ref/ref and alt/alt homozygotes were changed to 0 and 2, repectively.
     - using R command table(impute_column,resequed_column) could give us the number of markers which were (or were not) consistent between different markers. We have no R script to do this and you can write this command lines by yourselves.
 
+## How to impute low coverage sequencing data (LCS)
+There were several ways to do the imputation for the low coverage sequencing data and we chose the [STITCH software](https://github.com/rwdavies/STITCH). They have published their results in [*Nature Genetics*](https://www.nature.com/articles/ng.3594). The main steps were:
+  * **00 ** instructions for installing STITCH was on their website. I installed R version on Linux server.
+  * **01 **align your fastq files to GG6, transform the sam files to bam files
+  * **02 **add read groups to and remove duplicates from your bam files.
+  * **03 ** 10 XWS41 samples (5 from LWS41 and 5 from HWS41) were downsampled to ~0.4X (**on chr28**) as control samples to compare the concordance by using different K values. K was the most important parameters for STITCH and should be tested.
+  * **04 **K>9 and number of generations (n) set to 19 would gave very stable results.
+  * **05**We then imputed all chromosomes by setting K=10 and n=19 and R script was */scripts/STITCH_Rcpp.R*.
+  * **06**Tips for using STITCH:
+    - Do imputation one chromosome one by one.
+    - assign enough memories to your job. I assigned 256Gb memory when i imputed chr1 (~200Mb for 3160 samples).
+    - This was also related (positively i guess) to your sequencing depth.
+    - Too large chromosomes should be split to segments and they can be merge together afterwards.
+
+
+
 ## How to build phylogenetic trees
 Once we got results about selective sweeps on genomes among populations in each lineage, significant regions above thresholds would be selected:
   * The SNPs were exracted from imputed XWS41/50/53 by commands: *vcftools --gzvcf xx.vcf.gz --positions xx.txt --recode --stdout|bgzip > xws_Chrx_from_xbp_to_ybp.vcf.gz*.
