@@ -31,11 +31,21 @@ There were several ways to do the imputation for the low coverage sequencing dat
 ## How to do sweep analysis by using hapFLK software
 The protocols were very detailed at their website [hapFLK website](https://forge-dga.jouy.inra.fr/projects/hapflk) and [published paper](https://www.genetics.org/content/193/3/929.abstract).
 
-## How to build phylogenetic trees
-Once we got results about selective sweeps on genomes among populations in each lineage, significant regions above thresholds would be selected:
-  * The SNPs were exracted from imputed XWS41/50/53 by commands: *vcftools --gzvcf xx.vcf.gz --positions xx.txt --recode --stdout|bgzip > xws_Chrx_from_xbp_to_ybp.vcf.gz*.
-  * Use output vcf files (**transformed to ped/map formats**) as inputs of hapFLK and do: *hapflk --file xxx -p xxx_KING*
-  * intall and load R package named *ape* and plot the trees (ended with *tree.txt*).
-  * the script name was here *./ongoing_selection/scripts/plot_tree_for_local_ongoing_regions_only_in_HWS_GG6.R*.
-
-## How to 
+## How to build phylogenetic trees and Do association studies
+Once we got results about selective sweeps on genomes among populations in each lineage, significant regions above thresholds would be selected and many things could be done:
+  * **01 **Plot Phylogenetic trees:
+    - The SNPs were exracted from imputed XWS41/50/53 by commands: *vcftools --gzvcf xx.vcf.gz --positions xx.txt --recode --stdout|bgzip > xws_Chrx_from_xbp_to_ybp.vcf.gz*.
+    - Use output vcf files (**transformed to ped/map formats**) as inputs of hapFLK and do: *hapflk --file xxx -p xxx_KING*
+    - intall and load R package named *ape* and plot the trees (ended with *tree.txt*).
+    - the script name was here *./ongoing_selection/scripts/plot_tree_for_local_ongoing_regions_only_in_HWS_GG6.R*.
+  
+  * **02 **Select tag SNPs which were related to 56-day body weight independently.
+    - BE method allowsd no missing genotypes and we have use BEAGLE4 to imputed the vcf files (you got from last step) before doing next step.
+    - Use **getPhe4STCH_geno_DF_nofilterAFD05_add_GG6_3164Samples.R** to merge phenotype data with genotypes within the genomic regions detected in last two steps.
+    - Use BE method stored in **Function_findTagSNPs_among3164Samples_noyj20_BW8_GG6.R** to find tag SNPs.
+    
+    
+    
+    
+    
+    
