@@ -6,7 +6,7 @@ We imputed low-density chip genotypes for XWS41/50/53 to a higher whole-genome w
   * Genotypes by beadchips for XWS41/50/53 have been published ([Mats *et al*, 2013](https://www.g3journal.org/content/3/12/2305.short)).
   * Re-sequencing data was published by [Yanjun&Thibaut *et al* (2017)](https://gsejournal.biomedcentral.com/articles/10.1186/s12711-019-0487-1).
   * The software we used was BEAGLE4 as it always gave us the genotyping posterior for (1) estimate the imputation quality, (2) filtration. Command lines were like:
-    - Impute: **java -jar /path/to/beagle.r1399.jar gt=reseqXWS41_chipXWS415053.vcf.gz out=reseqXWS41_chipXWS415053_BGL4**. The software could be downloaded from [BEAGLE4 website](https://faculty.washington.edu/browning/beagle/b4_0.html).
+    - Impute: **java -jar /path/to/beagle.r1399.jar gt=reseqXWS41_chipXWS415053.vcf.gz window=50 overlap=20 out=reseqXWS41_chipXWS415053_BGL4**. The software could be downloaded from [BEAGLE4 website](https://faculty.washington.edu/browning/beagle/b4_0.html).
     - Filter: we had an easy python script to filter those bad imputed genotypes based on genotyping quality.**extract_sites_with_gp07sm1_177chip59AILsamples.py**. **$1** is the vcf file, **$2** was the positions to be excluded.
   * **Optional:** As you already have both ~30X resequed and imputed XWS41 genotypes,you can compare the imputation accuracy for the same individual in a different way:
     - change imputed genotypes of "0|1, 1|0, 0|0 and 1|1" to "1, 1, 0 and 2",
@@ -28,7 +28,8 @@ There were several ways to do the imputation for the low coverage sequencing dat
     - This was also related (positively i guess) to your sequencing depth.
     - Too large chromosomes should be split to segments and they can be merge together afterwards.
 
-
+## How to do sweep analysis by using hapFLK software
+The protocols were very detailed at their website [hapFLK website](https://forge-dga.jouy.inra.fr/projects/hapflk) and [published paper](https://www.genetics.org/content/193/3/929.abstract).
 
 ## How to build phylogenetic trees
 Once we got results about selective sweeps on genomes among populations in each lineage, significant regions above thresholds would be selected:
