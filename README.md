@@ -48,9 +48,14 @@ Once we got results about selective sweeps on genomes among populations in each 
     - xxx_tagSNPs_XWS_genoDF.txt (only LWS41/50/53 or HWS41/50/53 Samples genotyped at loci of tag SNPs)
     - xxx_tagSNPs_AIL_genoDF.txt (3164 Samples genotyped at loci of tag SNPs)
   
-## Associations studies on effects of the haplotypes under ongoing selection on 56-day effects
-We put this part as an indepentd section although it was closely related to the last section. This was because we think this part was extremely important for the whole project structure.
-
+## Association studies on effects of the haplotypes under ongoing selection on 56-day effects
+We put this part as an independent section although it was closely related to the last section. This was because we think this part was extremely important for the whole project structure. Main steps were:
+ 
+ * **01 **Construct haplotypes and calculate their frequencies in each generation for both AIL and XWS populations. The **Hap_Fre_Using_tagSNP_in_XWS405053.R** was used.
+ * **02 **Use **Hap_Geno_with_Phenos_gg6.R** and **Sample_Geno.R** create haplotype-genotypes and assign phenotypes to AIL samples.
+ * **03 **Use the ANOVA model to do association studies. The model was like:
+  <img src="https://render.githubusercontent.com/render/math?math=y = u %2B sex %2B gender %2B haplotypes %2B%11loci 2Be ">
+ Where y{i}, gi, si and ei were the same as described in Equation (1), hi was the number of copies of the tested haplotype (coded as 0,1,2) carried by ith individual.
 
 ## Explained variance by all 149 tag SNPs form LWS and HWS lineages
 
