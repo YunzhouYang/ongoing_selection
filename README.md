@@ -17,12 +17,12 @@ We imputed low-density chip genotypes for XWS41/50/53 to a higher whole-genome w
 ## How to impute low coverage sequencing data (LCS)
 There were several ways to do the imputation for the low coverage sequencing data and we chose the [STITCH software](https://github.com/rwdavies/STITCH). They have published their results in [*Nature Genetics*](https://www.nature.com/articles/ng.3594). The main steps were:
   * **00 ** instructions for installing STITCH was on their website. I installed R version on Linux server.
-  * **01 **align your fastq files to GG6, transform the sam files to bam files
-  * **02 **add read groups to and remove duplicates from your bam files.
+  * **01 ** align your fastq files to GG6, transform the sam files to bam files
+  * **02 ** add read groups to and remove duplicates from your bam files.
   * **03 ** 10 XWS41 samples (5 from LWS41 and 5 from HWS41) were downsampled to ~0.4X (**on chr28**) as control samples to compare the concordance by using different K values. K was the most important parameters for STITCH and should be tested.
-  * **04 **K>9 and number of generations (n) set to 19 would gave very stable results.
-  * **05**We then imputed all chromosomes by setting K=10 and n=19 and R script was */scripts/STITCH_Rcpp.R*.
-  * **06**Tips for using STITCH:
+  * **04 ** K>9 and number of generations (n) set to 19 would gave very stable results.
+  * **05** We then imputed all chromosomes by setting K=10 and n=19 and R script was */scripts/STITCH_Rcpp.R*.
+  * **06** Tips for using STITCH:
     - Do imputation one chromosome one by one.
     - assign enough memories to your job. I assigned 256Gb memory when i imputed chr1 (~200Mb for 3160 samples).
     - This was also related (positively i guess) to your sequencing depth.
@@ -33,27 +33,27 @@ The protocols were very detailed at their website [hapFLK website](https://forge
 
 ## How to build phylogenetic trees and Do association studies
 Once we got results about selective sweeps on genomes among populations in each lineage, significant regions above thresholds would be selected and many things could be done:
-  * **01 **Plot Phylogenetic trees:
+  * **01 ** Plot Phylogenetic trees:
     - The SNPs were exracted from imputed XWS41/50/53 by commands: *vcftools --gzvcf xx.vcf.gz --positions xx.txt --recode --stdout|bgzip > xws_Chrx_from_xbp_to_ybp.vcf.gz*.
     - Use output vcf files (**transformed to ped/map formats**) as inputs of hapFLK and do: *hapflk --file xxx -p xxx_KING*
     - intall and load R package named *ape* and plot the trees (ended with *tree.txt*).
     - the script name was here *./ongoing_selection/scripts/plot_tree_for_local_ongoing_regions_only_in_HWS_GG6.R*.
   
-  * **02 **Select tag SNPs which were related to 56-day body weight independently.
+  * **02 ** Select tag SNPs which were related to 56-day body weight independently.
     - BE method allowsd no missing genotypes and we have use BEAGLE4 to imputed the vcf files (you got from last step) before doing next step.
     - Use **getPhe4STCH_geno_DF_nofilterAFD05_add_GG6_3164Samples.R** to merge phenotype data with genotypes within the genomic regions detected in last two steps.
     - Use BE method stored in **Function_findTagSNPs_among3164Samples_noyj20_BW8_GG6.R** to find tag SNPs.
   
-  * **03 **Once you got he tag SNPs, extract them again from the STITCH-imputed AIL and BEAGLE4-imputed XWS41/50/53 datasets and phase them by BEAGLE4. Now, we got the haplotypes constituted of tag SNPs in tw files:
+  * **03 ** Once you got he tag SNPs, extract them again from the STITCH-imputed AIL and BEAGLE4-imputed XWS41/50/53 datasets and phase them by BEAGLE4. Now, we got the haplotypes constituted of tag SNPs in tw files:
     - xxx_tagSNPs_XWS_genoDF.txt (only LWS41/50/53 or HWS41/50/53 Samples genotyped at loci of tag SNPs)
     - xxx_tagSNPs_AIL_genoDF.txt (3164 Samples genotyped at loci of tag SNPs)
   
 ## Association studies on effects of the haplotypes under ongoing selection on 56-day effects
 We put this part as an independent section although it was closely related to the last section. This was because we think this part was extremely important for the whole project structure. Main steps were:
  
- * **01 **Construct haplotypes and calculate their frequencies in each generation for both AIL and XWS populations. The **Hap_Fre_Using_tagSNP_in_XWS405053.R** was used.
- * **02 **Use **Hap_Geno_with_Phenos_gg6.R** and **Sample_Geno.R** create haplotype-genotypes and assign phenotypes to AIL samples.
- * **03 **Use the ANOVA model to do association studies. The model was like:
+ * **01 ** Construct haplotypes and calculate their frequencies in each generation for both AIL and XWS populations. The **Hap_Fre_Using_tagSNP_in_XWS405053.R** was used.
+ * **02 ** Use **Hap_Geno_with_Phenos_gg6.R** and **Sample_Geno.R** create haplotype-genotypes and assign phenotypes to AIL samples.
+ * **03 ** Use the ANOVA model to do association studies. The model was like:
   <img src="https://render.githubusercontent.com/render/math?math=y = u %2B sex %2B gender %2B haplotypes %2B e ">
  Where y~i~, g~i~, s~i~ and e~i~ were the same as described in Equation (1), h~i~ was the number of copies of the tested haplotype (coded as 0,1,2) carried by i~th~ individual.
 
